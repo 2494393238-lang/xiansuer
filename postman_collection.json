@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "voice-assistant-service-v1",
+		"name": "Your Voice Assistant Service",
+		"description": "基于 ASR（语音识别）+ LLM（大模型问答）+ TTS（语音合成）的智能语音对话服务。\n\n## 接口列表\n\n| 接口 | 方法 | 说明 |\n|------|------|------|\n| /ask | POST | 核心对话接口，串联 ASR → LLM → TTS |\n| /health | GET | 服务健康检查 |\n| /voices | GET | 获取可用 TTS 音色列表 |\n\n## 使用前配置\n\n1. 设置 Collection 变量 `base_url` 为你的服务地址（默认 `http://localhost:8080`）\n2. 音频输入请求需要在 Body 中选择 WAV 文件",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "文本问答",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"input_type\": \"text\",\n    \"text\": \"你好，请介绍一下你自己\",\n    \"output_type\": \"text\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/ask",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				},
+				"description": "文本输入 + 文本输出：发送文本问题，获取 LLM 的 JSON 回复。"
+			},
+			"response": []
+		},
+		{
+			"name": "文本转语音回复",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"input_type\": \"text\",\n    \"text\": \"请用一句话介绍人工智能\",\n    \"output_type\": \"audio\",\n    \"voice\": \"zh-CN-XiaoxiaoNeural\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/ask",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ask"
+					]
+				},
+				"description": "文本输入 + 语音输出：发送文本问题，LLM 回复经 TTS 合成为 MP3 音频流返回。"
+			},
+			"response": []
+		},
+		{
+			"name": "健康检查",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				},
+				"description": "检查 ASR 模型加载状态、LLM API 连接状态、TTS 引擎可用性。"
+			},
+			"response": []
+		},
+		{
+			"name": "获取音色列表",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/voices",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"voices"
+					]
+				},
+				"description": "返回 EdgeTTS 支持的所有常用中文音色（普通话、粤语、台湾国语）。"
+			},
+			"response": []
+		},
+		{
+			"name": "语音识别问答 (需替换为音频文件)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "audio/wav"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": {
+					"raw": "{{base_url}}/ask?input_type=audio&output_type=text",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ask"
+					],
+					"query": [
+						{
+							"key": "input_type",
+							"value": "audio"
+						},
+						{
+							"key": "output_type",
+							"value": "text"
+						}
+					]
+				},
+				"description": "音频输入 + 文本输出：上传 WAV 音频文件，ASR 识别后经 LLM 返回文本回复。\n\n**使用说明：**\n1. 点击 Body 选项卡\n2. 选择 `binary` 模式\n3. 点击 `Select File` 选择一个 WAV 音频文件\n4. 发送请求"
+			},
+			"response": []
+		}
+	]
+}
