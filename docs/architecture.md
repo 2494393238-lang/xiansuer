@@ -174,4 +174,4 @@ TTSEngine    ── Edge TTS (云端免费)   → MP3 音频流
 - **ASR**：可替换为任何实现 `recognize(bytes) → str` 的引擎（如 Whisper、阿里云 ASR）
 - **LLM**：任何 OpenAI 兼容 API 均可直接使用（Ollama 本地、通义千问、ChatGLM 等）
 - **TTS**：可替换为任何实现 `synthesize(text) → bytes` 的引擎（如 Azure TTS、本地 VITS）
-*（内容由AI生成，仅供参考）*
+
