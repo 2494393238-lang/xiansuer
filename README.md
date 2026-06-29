@@ -173,4 +173,4 @@ python test_client.py
 # 指定地址和音频文件
 python test_client.py --base_url http://localhost:8080 --wav test.wav
 ```
-*（内容由AI生成，仅供参考）*
+
