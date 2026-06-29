@@ -222,4 +222,4 @@ export VOICE_ASR_DEVICE=cuda:0
 1. 检查 `VOICE_LLM_API_KEY` 是否正确
 2. 确认网络可访问 `VOICE_LLM_BASE_URL`
 3. 查看容器日志：`docker logs voice-assistant`
-*（内容由AI生成，仅供参考）*
+
